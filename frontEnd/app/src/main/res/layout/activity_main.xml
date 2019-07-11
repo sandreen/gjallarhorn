@@ -11,23 +11,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true" app:srcCompat="@android:drawable/ic_input_add"
-            android:id="@+id/addAlarm" android:layout_marginEnd="8dp"
+            android:id="@+id/mainAction" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:backgroundTint="#F95959" android:tint="#E3E3E3"/>
-    <androidx.cardview.widget.CardView
-            android:layout_width="395dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+            app:layout_constraintBottom_toBottomOf="parent" android:backgroundTint="#F95959" android:tint="#E3E3E3"
+            android:onClick="showOptionButtons"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true" app:srcCompat="@android:drawable/ic_btn_speak_now"
             android:id="@+id/recordButton" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/addAlarm" android:tint="#E3E3E3"
+            app:layout_constraintBottom_toTopOf="@+id/mainAction" android:tint="#E3E3E3"
             android:visibility="invisible"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
@@ -36,5 +30,22 @@
             android:id="@+id/setAlarmButton" app:layout_constraintBottom_toTopOf="@+id/recordButton"
             android:layout_marginBottom="8dp" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:tint="#E3E3E3"
+            android:onClick="showTimeSelection"
             android:visibility="invisible"/>
+    <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/alarmTimeSet" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:background="#455D7A"
+            android:visibility="invisible"/>
+    <Button
+            android:text="@android:string/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/submitAlarmButton" app:layout_constraintEnd_toEndOf="@id/alarmTimeSet" android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="@+id/alarmTimeSet"
+            android:onClick="setAlarmTime" android:visibility="invisible"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
