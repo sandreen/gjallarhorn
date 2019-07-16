@@ -49,6 +49,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun recordAudioActivity(view: View) {
+        val recordAudioIntent = Intent(this, AudioRecordingActivity::class.java)
+
+        startActivity(recordAudioIntent)
+    }
+
     fun showTimeSelection(view: View) {
         val time = findViewById<TimePicker>(R.id.alarmTimeSet)
         val button = findViewById<Button>(R.id.submitAlarmButton)
