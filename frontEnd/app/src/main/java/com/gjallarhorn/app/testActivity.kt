@@ -1,38 +1,41 @@
 package com.gjallarhorn.app
+
+import android.media.MediaPlayer
+import android.os.Bundle
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.storage.FirebaseStorage
 
-import android.os.Bundle
-import android.os.PersistableBundle
-import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_test.*
 import java.io.File
-import android.R.attr.start
-//import androidx.test.runner.intent.IntentStubberRegistry.reset
 import java.io.FileInputStream
 import java.io.IOException
-import android.media.MediaPlayer
-import java.io.FileOutputStream
 
-
-class filePull : AppCompatActivity(){
-
+class testActivity : AppCompatActivity() {
     lateinit var storage: FirebaseStorage
 
-    /*override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_test)
+        setSupportActionBar(toolbar)
 
-        val storage = FirebaseStorage.getInstance()
-
-
-    }*/
+        fab.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
+    }
 
     //retrieve an individual file from firebase
-    fun individualPull(fileName: String){
+    fun individualPull(view: View){
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
         val mediaPlayer = MediaPlayer()
-
+        val fileName = "Yee.mp3"
 
         val refPath = "Sounds/" + fileName
+
 
 
         val islandRef = storageRef.child(refPath)
@@ -42,8 +45,8 @@ class filePull : AppCompatActivity(){
         islandRef.getFile(localFile).addOnSuccessListener {
             try {
                 // create temp file that will hold byte array
-                val tempMp3 = File.createTempFile("kurchina", "mp3", cacheDir)
-                tempMp3.deleteOnExit()
+                //val tempMp3 = File.createTempFile("kurchina", "mp3", cacheDir)
+                localFile.deleteOnExit()
                 // resetting mediaplayer instance to evade problems
                 mediaPlayer.reset()
 
@@ -53,7 +56,7 @@ class filePull : AppCompatActivity(){
                 // Tried passing path directly, but kept getting
                 // "Prepare failed.: status=0x1"
                 // so using file descriptor instead
-                val fis = FileInputStream(tempMp3)
+                val fis = FileInputStream(localFile)
                 mediaPlayer.setDataSource(fis.getFD())
                 mediaPlayer.prepare()
                 mediaPlayer.start()
