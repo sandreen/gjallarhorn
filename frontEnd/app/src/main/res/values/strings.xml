@@ -3,4 +3,5 @@
     <string name="channel_name">gjallarhorn</string>
     <string name="channel_description">Gjallarhorn App Notifications</string>
     <string name="channel_id">gjallarhorn</string>
+    <string name="title_activity_upload_test">UploadTest</string>
 </resources>
