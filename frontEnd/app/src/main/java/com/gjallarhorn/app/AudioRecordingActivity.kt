@@ -1,10 +1,10 @@
 package com.gjallarhorn.app
 
 import android.Manifest
+import kotlinx.android.synthetic.main.activity_audio_recording.*
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_audio_recording.pushButton
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.view.MotionEvent
@@ -46,6 +46,7 @@ class AudioRecordingActivity : AppCompatActivity() {
         }
     }
 
+    /* Sends a request to phone to learn about the status of requested permission */
     private fun requestPermission(permissionType: String, requestCode: Int) {
         val permission = this.checkSelfPermission(permissionType)
 
@@ -54,6 +55,7 @@ class AudioRecordingActivity : AppCompatActivity() {
         }
     }
 
+    /* If the phone does not have Record and Write to Storage permissions, ask for them */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
                                             grantResults: IntArray) {
         when (requestCode) {
@@ -79,12 +81,14 @@ class AudioRecordingActivity : AppCompatActivity() {
         }
     }
 
+    /* Function to check if phone as a microphone */
     private fun hasMicrophone(): Boolean {
         val pManager = this.packageManager
         return pManager.hasSystemFeature(
             PackageManager.FEATURE_MICROPHONE)
     }
 
+    /* Sets up the app ensuring the phone as a microphone and the app has the proper permission */
     private fun audioSetup() {
         if (!hasMicrophone()) {
 //            stopButton.isEnabled = false
@@ -109,7 +113,7 @@ class AudioRecordingActivity : AppCompatActivity() {
 
                 if(!audioRecorded) {
                     isRecording = true
-                    //mediaPlayer?.start()
+
                     try {
                         mediaRecorder = MediaRecorder()
                         mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -142,8 +146,11 @@ class AudioRecordingActivity : AppCompatActivity() {
                     mediaRecorder?.stop()
                     mediaRecorder?.release()
                     mediaRecorder = null
+
                     isRecording = false
                     audioRecorded = true
+
+                    textView.text = getString(R.string.playback_description)
                 }
                 else if (audioRecorded)
                 {
@@ -163,6 +170,18 @@ class AudioRecordingActivity : AppCompatActivity() {
         }
     }
 
+    /* Resets the media recorder and player when the 'rerecord' button is pushed */
+    fun resetMedia() {
+        mediaRecorder?.release()
+        mediaRecorder = null
+        mediaRecorder?.reset()
+
+        mediaPlayer?.release()
+        mediaPlayer = null
+        mediaPlayer?.reset()
+    }
+
+    /* Takes the user back to the main alarm activity when the 'cancel' button is pushed */
     fun returnToMainActivity(view: View) {
         val mainActivityIntent = Intent(this, MainActivity::class.java)
 
