@@ -66,7 +66,7 @@ class testActivity : AppCompatActivity() {
             }
 
         }.addOnFailureListener {
-
+            //dont worry about it
         }
     }
 
