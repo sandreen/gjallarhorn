@@ -19,64 +19,64 @@ import java.util.*
 class UploadTest : AppCompatActivity() {
 
 
-    private var filePath: Uri? = null
-    private var storage: FirebaseStorage? = null
-
-    var blah = 10
+//    private var filePath: Uri? = null
+//    private var storage: FirebaseStorage? = null
+//
+//    var blah = 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_upload_test)
-
-
-          storage = FirebaseStorage.getInstance()
-
-        setSupportActionBar(toolbar)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-
-        }
+          super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_upload_test)
+//
+//
+//          storage = FirebaseStorage.getInstance()
+//
+//        setSupportActionBar(toolbar)
+//        fab.setOnClickListener { view ->
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+//
+//        }
     }
 
 
-    fun recordSound() {
-
-    }
-
-
-    fun uploadSound(view: View) {
-        var storageReference = FirebaseStorage.getInstance().reference
-
-        if(filePath != null) {
-            //set to the name of
-            val fileUri: Uri? = null
-
-            storageReference.putFile(fileUri!!)
-                .addOnSuccessListener { taskSnapshot ->
-                    val name = taskSnapshot.metadata!!.name
-                    var url = taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString()
-
-
-                }
-                .addOnFailureListener { exception ->
-                    // Handle unsuccessful uploads
-                }
-                .addOnProgressListener { taskSnapshot ->
-                    // taskSnapshot.bytesTransferred
-                    // taskSnapshot.totalByteCount
-                }
-                .addOnPausedListener { taskSnapshot ->
-                    // Upload is paused
-                }
-
-        }else{
-        Toast.makeText(this, "Record a Sound First!", Toast.LENGTH_LONG).show()
-        }
-
-
-    }
-
+//    fun recordSound() {
+//
+//    }
+//
+//
+//    fun uploadSound(view: View) {
+//        var storageReference = FirebaseStorage.getInstance().reference
+//
+//        if(filePath != null) {
+//            //set to the name of
+//            val fileUri: Uri? = null
+//
+//            storageReference.putFile(fileUri!!)
+//                .addOnSuccessListener { taskSnapshot ->
+//                    val name = taskSnapshot.metadata!!.name
+//                    var url = taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString()
+//
+//
+//                }
+//                .addOnFailureListener { exception ->
+//                    // Handle unsuccessful uploads
+//                }
+//                .addOnProgressListener { taskSnapshot ->
+//                    // taskSnapshot.bytesTransferred
+//                    // taskSnapshot.totalByteCount
+//                }
+//                .addOnPausedListener { taskSnapshot ->
+//                    // Upload is paused
+//                }
+//
+//        }else{
+//        Toast.makeText(this, "Record a Sound First!", Toast.LENGTH_LONG).show()
+//        }
+//
+//
+//    }
+//
 
 
 
