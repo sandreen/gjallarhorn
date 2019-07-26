@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
 import kotlinx.android.synthetic.main.activity_storage_test.*
@@ -17,6 +18,7 @@ class StorageTest : AppCompatActivity() {
 
 
     private var storage: FirebaseStorage? = null
+    val db = FirebaseFirestore.getInstance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +33,41 @@ class StorageTest : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
     }
-    fun writeToDB(view: View){
 
+    fun writeToDB(){
+        val tone = hashMapOf(
+            "Author" to "Big",
+            "Explicit" to "Dick",
+            "Language" to "Rich",
+            "Path" to 123,
+            "Title" to "Dank Tune"
+        )
+
+        db.collection("Alarms")
+            .add(tone)
+            .addOnSuccessListener { documentReference ->
+                Toast.makeText(this, "DocumentSnapshot added with ID: ${documentReference.id}", Toast.LENGTH_LONG).show()
+            }
+
+            .addOnFailureListener { e ->
+                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+            }
+
+    }
+
+    fun findTune(view: View){
+        db.collection("Alarms")
+            .whereEqualTo("Title", "Dank Tune")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Toast.makeText(this,  "${document.id} => ${document.data}", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            .addOnFailureListener { e ->
+                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+            }
     }
 
 
@@ -40,7 +75,7 @@ class StorageTest : AppCompatActivity() {
     fun upload(view: View) {
 
             var storageReference = FirebaseStorage.getInstance().reference.child("Sounds")
-            var fileName  = "nogod.mp3"
+            var fileName  = "swagcity.mp3"
             var filePath = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).toString()
             var myExternalFile: File = File((filePath), fileName)
             val fileUri: Uri? = Uri.fromFile(myExternalFile)
@@ -53,6 +88,7 @@ class StorageTest : AppCompatActivity() {
                         var url = taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString()
 
                         Toast.makeText(this, "file uploaded!", Toast.LENGTH_LONG).show()
+                        writeToDB()
 
                     }
                     .addOnFailureListener { exception ->
