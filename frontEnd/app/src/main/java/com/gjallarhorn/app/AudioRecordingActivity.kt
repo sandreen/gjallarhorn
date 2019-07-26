@@ -3,7 +3,6 @@ package com.gjallarhorn.app
 import android.Manifest
 import kotlinx.android.synthetic.main.activity_audio_recording.*
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.media.MediaPlayer
 import android.media.MediaRecorder
@@ -13,7 +12,6 @@ import android.view.View
 import android.content.pm.PackageManager
 
 import android.widget.Toast
-import androidx.core.content.PermissionChecker
 import androidx.core.app.ActivityCompat
 
 @SuppressLint("ByteOrderMark")
@@ -23,6 +21,7 @@ class AudioRecordingActivity : AppCompatActivity() {
     private var mediaRecorder: MediaRecorder? = null
 
     private var audioFilePath: String? = null
+    private var audioFileName: String? = null
     private var isRecording = false
     private var audioRecorded = false
 
@@ -99,8 +98,9 @@ class AudioRecordingActivity : AppCompatActivity() {
 //            stopButton.isEnabled = false
         }
 
+        // Saves in My Files > Internal Storage > Android > data > com.gjallarhorn.app > files
         audioFilePath = getExternalFilesDir(null)
-            ?.absolutePath + "/tempaudio.3gp"
+            ?.absolutePath + "/tempaudio.m4a"
 
         requestPermission(Manifest.permission.RECORD_AUDIO,
             RECORD_REQUEST_CODE)
@@ -117,11 +117,9 @@ class AudioRecordingActivity : AppCompatActivity() {
                     try {
                         mediaRecorder = MediaRecorder()
                         mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
-                        mediaRecorder?.setOutputFormat(
-                            MediaRecorder.OutputFormat.THREE_GPP
-                        )
+                        mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
                         mediaRecorder?.setOutputFile(audioFilePath)
-                        mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+                        mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
                         mediaRecorder?.prepare()
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -170,8 +168,14 @@ class AudioRecordingActivity : AppCompatActivity() {
         }
     }
 
+    /* Saves the media file to the Gjallarhorn folder for future use and upload */
+    fun saveMedia(view: View){
+        var saveDialog = SaveRecordingDialogFragment()
+        saveDialog.show(supportFragmentManager, "SaveRecordingDialogFragment")
+    }
+
     /* Resets the media recorder and player when the 'rerecord' button is pushed */
-    fun resetMedia() {
+    fun resetMedia(view: View) {
         mediaRecorder?.release()
         mediaRecorder = null
         mediaRecorder?.reset()
@@ -179,13 +183,11 @@ class AudioRecordingActivity : AppCompatActivity() {
         mediaPlayer?.release()
         mediaPlayer = null
         mediaPlayer?.reset()
-    }
 
-    /* Takes the user back to the main alarm activity when the 'cancel' button is pushed */
-    fun returnToMainActivity(view: View) {
-        val mainActivityIntent = Intent(this, MainActivity::class.java)
+        audioRecorded = false
 
-        startActivity(mainActivityIntent)
+        if(textView.text !== getString(R.string.record_description))
+            textView.text = getString(R.string.record_description)
     }
 
 }
