@@ -13,4 +13,6 @@
     <string name="saveRecordingHint">Recording title...</string>
     <string name="saveRecordingPositive">Upload</string>
     <string name="saveRecordingNegative">Cancel</string>
+    <string name="title_activity_upload_test">UploadTest</string>
+    <string name="title_activity_storage_test">StorageTest</string>
 </resources>
