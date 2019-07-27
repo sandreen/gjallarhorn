@@ -14,11 +14,14 @@ import androidx.fragment.app.DialogFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class SaveRecordingDialogFragment : DialogFragment() {
    // Firebase Stuff
     private var storage: FirebaseStorage? = null
-    private var db: FirebaseFirestore? = null
+    private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
 
     var flag = true
 
@@ -34,8 +37,7 @@ class SaveRecordingDialogFragment : DialogFragment() {
 
 
 
-            //Initialize Firebase Storage and Firestore
-            db = FirebaseFirestore.getInstance()
+            //Initialize Firebase Storage
             storage = FirebaseStorage.getInstance()
 
             builder.setView(inflater.inflate(R.layout.dialog_fragment_save_recording, null))
@@ -58,7 +60,6 @@ class SaveRecordingDialogFragment : DialogFragment() {
                                         Log.d("FLAG", flag.toString())
                                         Toast.makeText(requireContext(), "Failed to upload", Toast.LENGTH_SHORT).show()
                                     }
-
                                 } else {
                                     Toast.makeText(
                                         requireContext(),
@@ -112,17 +113,17 @@ class SaveRecordingDialogFragment : DialogFragment() {
                var storageReference = FirebaseStorage.getInstance().reference.child("Sounds")
                var fileName = "/$audioFileName.m4a"
                var filePath = audioFilePath
-               var soundFile: File = File((filePath), fileName)
+               var soundFile = File((filePath), fileName)
                val fileUri: Uri? = Uri.fromFile(soundFile)
                val ref = storageReference.child(fileName)
 
                //Push the file to firebase storage
                ref.putFile(fileUri!!)
                    .addOnSuccessListener { taskSnapshot ->
-                       val name = taskSnapshot.metadata!!.name
                        var url = taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString()
                        Log.d("firebase", "file uploaded")
-                        uploadInformer(true)
+                       writeToFireStore(url, audioFileName)
+                       uploadInformer(true)
                    }
                    .addOnFailureListener { e ->
                        Log.d("firebase", e.message)
@@ -143,10 +144,33 @@ class SaveRecordingDialogFragment : DialogFragment() {
        }
     }
 
+    private fun writeToFireStore(url: String, name: String?){
+        val tone = hashMapOf(
+            "AlarmName" to name,
+            "URL" to url,
+            "Date" to getDate()
+        )
+
+        db.collection("Alarms")
+            .add(tone)
+            .addOnSuccessListener { documentReference ->
+                Log.d("firestore", "Data uploaded")
+            }
+            .addOnFailureListener { e ->
+                Log.d("firestore", e.message)
+            }
+    }
+
     private fun uploadInformer(successFlag: Boolean){
         Log.d("FLAG", flag.toString())
         flag = successFlag
         Log.d("FLAG", flag.toString())
+    }
+    private fun getDate(): String{
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.HH:mm:ss")
+        var answer: String =  current.format(formatter)
+        return answer
     }
 
 
