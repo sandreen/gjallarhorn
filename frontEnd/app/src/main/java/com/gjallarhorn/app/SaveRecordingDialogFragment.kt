@@ -22,7 +22,7 @@ class SaveRecordingDialogFragment : DialogFragment() {
     private var storage: FirebaseStorage? = null
     private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-
+    //not currently getting useds
     var flag = true
 
 
@@ -35,8 +35,7 @@ class SaveRecordingDialogFragment : DialogFragment() {
             // Use the inflated class to turn the custom fragment xml into a dialog
             val inflater = requireActivity().layoutInflater
 
-
-
+            
             //Initialize Firebase Storage
             storage = FirebaseStorage.getInstance()
 
@@ -120,10 +119,15 @@ class SaveRecordingDialogFragment : DialogFragment() {
                //Push the file to firebase storage
                ref.putFile(fileUri!!)
                    .addOnSuccessListener { taskSnapshot ->
-                       var url = taskSnapshot.getMetadata()?.getReference()?.getDownloadUrl().toString()
-                       Log.d("firebase", "file uploaded")
-                       writeToFireStore(url, audioFileName)
-                       uploadInformer(true)
+
+                       ref.downloadUrl.addOnCompleteListener () { taskSnapshot ->
+                           var url = taskSnapshot.result.toString()
+                           writeToFireStore(url, audioFileName)
+                       }
+//                       var url = taskSnapshot.getResult.getMetadata.getDownloadUrl().toString()
+//                       Log.d("firebase", url)
+//                       writeToFireStore(url, audioFileName)
+//                       uploadInformer(true)
                    }
                    .addOnFailureListener { e ->
                        Log.d("firebase", e.message)
@@ -161,6 +165,7 @@ class SaveRecordingDialogFragment : DialogFragment() {
             }
     }
 
+    //Not working atm
     private fun uploadInformer(successFlag: Boolean){
         Log.d("FLAG", flag.toString())
         flag = successFlag
