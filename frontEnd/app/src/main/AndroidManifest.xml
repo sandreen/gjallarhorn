@@ -16,6 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+                android:name=".SetAlarmActivity"
+                android:parentActivityName=".MainActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.gjallarhorn.app.MainActivity"/>
+        </activity>
         <receiver android:name=".AlarmReceiver"/>
         <receiver android:name=".StopAlarmReceiver"/>
     </application>

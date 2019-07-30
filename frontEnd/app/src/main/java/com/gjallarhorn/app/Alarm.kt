@@ -31,4 +31,8 @@ class Alarm (id: Int, sound: Uri, active: Boolean, time: String) {
     fun setActive(value: Boolean) {
         alarmActive = value
     }
+
+    fun setTime(newTime: String) {
+        alarmTime = newTime
+    }
 }

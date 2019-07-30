@@ -18,6 +18,26 @@ object AlarmList {
         return alarmList.size
     }
 
+    fun isInList(id: Int): Boolean {
+        for (i in 0 until getSize()) {
+            if (getId(i) == id)
+                return true
+        }
+        return false
+    }
+
+    fun getIndexById(id: Int): Int {
+        for (i in 0 until getSize()) {
+            if (getId(i) == id)
+                return i
+        }
+        return -1
+    }
+
+    fun deleteElement(index: Int) {
+        alarmList.removeAt(index)
+    }
+
     fun getId(index: Int): Int {
         return alarmList[index].getId()
     }
@@ -40,5 +60,9 @@ object AlarmList {
 
     fun setActive(index: Int, value: Boolean) {
         alarmList[index].setActive(value)
+    }
+
+    fun setTime(index: Int, value: String) {
+        alarmList[index].setTime(value)
     }
 }

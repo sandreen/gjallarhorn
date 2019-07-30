@@ -1,35 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:background="#455d7a">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:background="#455d7a"
+              android:orientation="vertical">
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_weight="1">
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/card_alarm_time"
-                android:textColor="#e3e3e3" android:textColorHighlight="#e3e3e3" android:textSize="30sp"
-                android:layout_marginTop="20dp" android:layout_marginStart="15dp"/>
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <Button
-                    android:text="@string/delete_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/card_delete_button" android:layout_weight="1"
-                    android:backgroundTint="#455D7A" android:textColor="#e3e3e3" android:background="#455D7A"
-                    style="?android:attr/buttonBarButtonStyle"/>
-            <Button
-                    android:text="@string/edit_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/card_edit_button" android:layout_weight="1"
-                    android:backgroundTint="#455d7a" android:textColor="#e3e3e3" android:background="#455d7a"
-                    style="?android:attr/buttonBarButtonStyle"/>
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/card_alarm_time"
+                    android:textColor="#e3e3e3" android:textColorHighlight="#e3e3e3" android:textSize="30sp"
+                    android:layout_marginTop="20dp" android:layout_marginStart="15dp"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <Button
+                        android:text="@string/delete_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/card_delete_button"
+                        android:layout_weight="1"
+                        android:backgroundTint="#455D7A" android:textColor="#e3e3e3" android:background="#455D7A"
+                        style="?android:attr/buttonBarButtonStyle"/>
+                <Button
+                        android:text="@string/edit_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/card_edit_button"
+                        android:layout_weight="1"
+                        android:backgroundTint="#455d7a" android:textColor="#e3e3e3" android:background="#455d7a"
+                        style="?android:attr/buttonBarButtonStyle"/>
+            </LinearLayout>
         </LinearLayout>
+        <Switch android:layout_width="wrap_content" android:layout_height="match_parent"
+                android:id="@+id/card_alarm_toggle" android:layout_marginEnd="10dp"
+                android:thumbTint="#f95959" android:trackTint="#e3e3e3"
+        />
     </LinearLayout>
-    <Switch android:layout_width="wrap_content" android:layout_height="match_parent"
-            android:id="@+id/card_alarm_toggle" android:layout_marginEnd="10dp"/>
+    <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#233142"/>
 
 </LinearLayout>
