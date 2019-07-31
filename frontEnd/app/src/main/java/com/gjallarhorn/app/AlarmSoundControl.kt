@@ -21,6 +21,7 @@ object AlarmSoundControl {
     }
 
     fun stopPlayer() {
-        mediaPlayer.stop()
+        if (mediaPlayer.isPlaying)
+            mediaPlayer.stop()
     }
 }

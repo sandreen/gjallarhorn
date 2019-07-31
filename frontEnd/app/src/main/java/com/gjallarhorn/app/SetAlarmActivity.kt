@@ -26,7 +26,7 @@ class SetAlarmActivity : AppCompatActivity() {
         var requestId = intent.getIntExtra("CardID", -1)
 
         if (requestId == -1)
-            requestId = (0..1000).random()
+            requestId = (2..1000).random()
 
         val clock = findViewById<TimePicker>(R.id.alarmTimeSet)
 

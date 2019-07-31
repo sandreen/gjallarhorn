@@ -19,6 +19,8 @@ object AlarmList {
     }
 
     fun isInList(id: Int): Boolean {
+        if (id == 1) // ID 1 is reserved for snoozed alarms
+            return true
         for (i in 0 until getSize()) {
             if (getId(i) == id)
                 return true

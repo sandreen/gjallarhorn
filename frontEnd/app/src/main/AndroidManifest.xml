@@ -25,6 +25,7 @@
         </activity>
         <receiver android:name=".AlarmReceiver"/>
         <receiver android:name=".StopAlarmReceiver"/>
+        <receiver android:name=".SnoozeAlarmReceiver"/>
     </application>
 
 </manifest>

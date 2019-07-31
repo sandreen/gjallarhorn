@@ -13,10 +13,14 @@ class AlarmScheduler {
     fun scheduleAlarm(context: Context, id: Int, hour: Int, minute: Int) {
         val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+        val soundName = "android.resource://" + context.packageName + "/raw/funny_fanfare_sound"
+
         val alarmIntent = Intent(context, AlarmReceiver::class.java)
+        alarmIntent.putExtra("alarmName", soundName)
+        alarmIntent.putExtra("alarmId", id)
+
         val pendingIntent = PendingIntent.getBroadcast(context, id, alarmIntent, 0)
 
-        val soundName = "android.resource://" + context.packageName + "/raw/funny_fanfare_sound"
         val sound = Uri.parse(soundName)
 
         val calendar: Calendar = Calendar.getInstance().apply {
@@ -26,12 +30,14 @@ class AlarmScheduler {
             set(Calendar.SECOND, 0)
         }
 
-        if (AlarmList.isInList(id)) {
-            val alarmIndex = AlarmList.getIndexById(id)
-            AlarmList.setTime(alarmIndex, "$hour:$minute")
-            AlarmList.setActive(alarmIndex, true)
-        } else {
-            alarmSet.addAlarm(id, sound, true, "$hour:$minute")
+        if (id != 1) {
+            if (AlarmList.isInList(id)) {
+                val alarmIndex = AlarmList.getIndexById(id)
+                AlarmList.setTime(alarmIndex, "$hour:$minute")
+                AlarmList.setActive(alarmIndex, true)
+            } else {
+                alarmSet.addAlarm(id, sound, true, "$hour:$minute")
+            }
         }
 
         alarmMgr.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
