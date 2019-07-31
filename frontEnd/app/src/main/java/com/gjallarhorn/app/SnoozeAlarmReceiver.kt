@@ -14,7 +14,7 @@ class SnoozeAlarmReceiver : BroadcastReceiver() {
         val id = intent.getIntExtra("alarmId", -1)
 
         val notificationManager = context.getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager!!.cancel(id)
+        notificationManager.cancel(id)
 
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
