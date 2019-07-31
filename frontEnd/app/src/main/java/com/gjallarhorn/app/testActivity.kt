@@ -36,19 +36,39 @@ class testActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
+
     }
 
-    //retrieve an individual file from firebase
-    fun individualPull(view: View){
-        val database = FirebaseFirestore.getInstance()
+    fun individualPull(view: View) {
+        val mediaPlayer = MediaPlayer()
+        pullRandomSound() {
+            try {
+                val localFile = it
+                localFile.deleteOnExit()
+                mediaPlayer.reset()
+                val fis = FileInputStream(localFile)
+                mediaPlayer.setDataSource(fis.getFD())
+                mediaPlayer.prepare()
+                mediaPlayer.start()
+            } catch (ex: IOException) {
+                val s = ex.toString()
+                ex.printStackTrace()
+            }
+        }
+    }
 
-        val alarmTitle = "disgust"
-        val dataRef = database.collection("Alarms")
-            //.whereEqualTo("AlarmName", alarmTitle)
+
+    //retrieve an individual file from firebase
+    fun pullRandomSound(fileCallBack: (File) -> Unit){
+        val database = FirebaseFirestore.getInstance()
+        val storage = FirebaseStorage.getInstance()
+
+        database.collection("Alarms")
             .get()
             .addOnSuccessListener{ documents ->
-                val listURL: MutableList<String> = mutableListOf<String>()
-                val listName: MutableList<String> = mutableListOf<String>()
+                val listURL: MutableList<String> = mutableListOf()
+                val listName: MutableList<String> = mutableListOf()
 
                 for (document in documents){
                     listURL.add(document.getString("URL").toString())
@@ -61,42 +81,15 @@ class testActivity : AppCompatActivity() {
                 val storageURL = listURL.get(randNum)
                 val selectedName = listName.get(randNum)
                 Log.d("Firebase: ", storageURL)
-                pullFromURL(storageURL, selectedName)
-        }
-    }
 
-    fun pullFromURL(storageURL:String, name:String){
-        val storage = FirebaseStorage.getInstance()
-        val httpsReference = storage.getReferenceFromUrl(storageURL)
-        val mediaPlayer = MediaPlayer()
+                val httpsReference = storage.getReferenceFromUrl(storageURL)
+                val localFile = File.createTempFile(selectedName, "m4a")
 
-        val localFile = File.createTempFile(name, "m4a")
-
-        httpsReference.getFile(localFile).addOnSuccessListener {
-            try {
-                // create temp file that will hold byte array
-                //val tempMp3 = File.createTempFile("kurchina", "mp3", cacheDir)
-                localFile.deleteOnExit()
-                // resetting mediaplayer instance to evade problems
-                mediaPlayer.reset()
-
-                // In case you run into issues with threading consider new instance like:
-                // MediaPlayer mediaPlayer = new MediaPlayer();
-
-                // Tried passing path directly, but kept getting
-                // "Prepare failed.: status=0x1"
-                // so using file descriptor instead
-                val fis = FileInputStream(localFile)
-                mediaPlayer.setDataSource(fis.getFD())
-                mediaPlayer.prepare()
-                mediaPlayer.start()
-            } catch (ex: IOException) {
-                val s = ex.toString()
-                ex.printStackTrace()
-            }
-
-        }.addOnFailureListener {
-            //dont worry about it
+                httpsReference.getFile(localFile).addOnSuccessListener {
+                    fileCallBack(localFile)
+                }.addOnFailureListener {
+                    //dont worry about it
+                }
         }
     }
 
