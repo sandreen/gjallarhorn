@@ -15,4 +15,6 @@
     <string name="saveRecordingNegative">Cancel</string>
     <string name="title_activity_upload_test">UploadTest</string>
     <string name="title_activity_storage_test">StorageTest</string>
+    <string name="delete_button">Delete</string>
+    <string name="edit_button">Edit</string>
 </resources>
