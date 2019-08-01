@@ -31,7 +31,6 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.gjallarhorn.app.MainActivity"/>
         </activity>
-
         <activity
                 android:name=".AudioRecordingActivity"
                 android:parentActivityName=".MainActivity">
@@ -39,7 +38,6 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.gjallarhorn.app.MainActivity"/>
         </activity>
-
         <receiver android:name=".AlarmReceiver"/>
         <receiver android:name=".StopAlarmReceiver"/>
         <receiver android:name=".SnoozeAlarmReceiver"/>

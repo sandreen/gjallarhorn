@@ -3,9 +3,14 @@
     <string name="channel_name">gjallarhorn</string>
     <string name="channel_description">Gjallarhorn App Notifications</string>
     <string name="channel_id">gjallarhorn</string>
-    <string name="record_description">Keep the button pressed to record. Release it when you\'re done.</string>
-    <string name="rec_play_button">Keep Pressed</string>
-    <string name="playback_description">Keep the button pressed to play recording. Release to stop.</string>
+    <string name="no_mic_message">This device has no microphone to record audio.</string>
+    <string name="missing_permissions">Please allow audio recording and external storage permissions to continue.</string>
+    <string name="record_description">Hold button to record. Release when you\'re done.</string>
+    <string name="rec_play_button_nomic">Disabled</string>
+    <string name="rec_play_button_unrecorded">Press to\nRecord</string>
+    <string name="rec_play_button_pressed">Keep\nPressed</string>
+    <string name="rec_play_button_recorded">Press to\nPlay</string>
+    <string name="playback_description">Hold button to play recording. Release to stop.</string>
     <string name="save_button">Save</string>
     <string name="rerecord_button">Rerecord</string>
     <string name="saveRecordingDialog">What is your recording called?</string>

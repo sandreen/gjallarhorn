@@ -21,7 +21,6 @@ class AudioRecordingActivity : AppCompatActivity() {
     private var mediaRecorder: MediaRecorder? = null
 
     private var audioFilePath: String? = null
-    private var audioFileName: String? = null
     private var isRecording = false
     private var audioRecorded = false
 
@@ -60,8 +59,10 @@ class AudioRecordingActivity : AppCompatActivity() {
         when (requestCode) {
             RECORD_REQUEST_CODE -> {
                 if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    //recordButton.isEnabled = false
+                    //pushButton.isEnabled = false
+//                  rerecordButton.isEnabled = false
 
+                    textView.text = getString(R.string.missing_permissions)
                     Toast.makeText(this, "Record permission required", Toast.LENGTH_LONG).show()
                 }
                 else{
@@ -71,8 +72,11 @@ class AudioRecordingActivity : AppCompatActivity() {
             }
             STORAGE_REQUEST_CODE -> {
                 if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED){
-                    //recordButton.isEnabled = false
+                    //pushButton.isEnabled = false
+                    //rerecordButton.isEnabled = false
+                    //saveButton.isEnabled = false
 
+                    textView.text = getString(R.string.missing_permissions)
                     Toast.makeText(this, "Storage permission required", Toast.LENGTH_LONG).show()
                 }
                 return
@@ -90,12 +94,20 @@ class AudioRecordingActivity : AppCompatActivity() {
     /* Sets up the app ensuring the phone as a microphone and the app has the proper permission */
     private fun audioSetup() {
         if (!hasMicrophone()) {
-//            stopButton.isEnabled = false
-//            playButton.isEnabled = false
-//            recordButton.isEnabled = false
+//            saveButton.isEnabled = false
+//            pushButton.isEnabled = false
+//            rerecordButton.isEnabled = false
+
+            textView.text = getString(R.string.no_mic_message)
+            pushButton.setBackgroundResource(R.drawable.disabled_record_button)
+            pushButton.text = getString(R.string.rec_play_button_nomic)
         } else {
-//            playButton.isEnabled = false
-//            stopButton.isEnabled = false
+//            saveButton.isEnabled = false
+//            rerecordButton.isEnabled = false
+
+            textView.text = getString(R.string.record_description)
+            pushButton.setBackgroundResource(R.drawable.record_button)
+            pushButton.text = getString(R.string.rec_play_button_unrecorded)
         }
 
         // Saves in My Files > Internal Storage > Android > data > com.gjallarhorn.app > files
@@ -111,6 +123,9 @@ class AudioRecordingActivity : AppCompatActivity() {
             MotionEvent.ACTION_DOWN -> {
                 println("down")
 
+                pushButton.text = getString(R.string.rec_play_button_pressed)
+                pushButton.setBackgroundResource(R.drawable.pressed_record_button)
+
                 if(!audioRecorded) {
                     isRecording = true
 
@@ -120,6 +135,8 @@ class AudioRecordingActivity : AppCompatActivity() {
                         mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
                         mediaRecorder?.setOutputFile(audioFilePath)
                         mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                        mediaRecorder?.setAudioSamplingRate(44100)
+                        mediaRecorder?.setAudioEncodingBitRate(384000)
                         mediaRecorder?.prepare()
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -138,6 +155,8 @@ class AudioRecordingActivity : AppCompatActivity() {
             MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                 println("up or cancel")
 
+                pushButton.setBackgroundResource(R.drawable.record_button)
+
                 if (isRecording && !audioRecorded)
                 {
                     //recordButton.isEnabled = false
@@ -149,17 +168,23 @@ class AudioRecordingActivity : AppCompatActivity() {
                     audioRecorded = true
 
                     textView.text = getString(R.string.playback_description)
+                    pushButton.text = getString(R.string.rec_play_button_recorded)
                 }
                 else if (audioRecorded)
                 {
                     mediaPlayer?.pause()
                     mediaPlayer?.seekTo(0)
+
+                    pushButton.text = getString(R.string.rec_play_button_recorded)
                 }
                 else
                 {
                     mediaPlayer?.release()
                     mediaPlayer = null
                     //recordButton.isEnabled = true
+//                  rerecordButton.isEnabled = false
+
+                    pushButton.text = getString(R.string.rec_play_button_unrecorded)
                 }
             }
             else -> {
@@ -188,6 +213,10 @@ class AudioRecordingActivity : AppCompatActivity() {
 
         if(textView.text !== getString(R.string.record_description))
             textView.text = getString(R.string.record_description)
+
+        if(pushButton.text !== getString(R.string.rec_play_button_unrecorded))
+            pushButton.text = getString(R.string.rec_play_button_unrecorded)
+
     }
 
 }
