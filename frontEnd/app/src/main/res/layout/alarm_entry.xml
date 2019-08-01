@@ -14,8 +14,13 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" android:id="@+id/card_alarm_time"
-                    android:textColor="#e3e3e3" android:textColorHighlight="#e3e3e3" android:textSize="30sp"
-                    android:layout_marginTop="20dp" android:layout_marginStart="15dp"/>
+                    android:textColor="#e3e3e3" android:textColorHighlight="#e3e3e3" android:textSize="40sp"
+                    android:layout_marginTop="20dp" android:layout_marginStart="25dp"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/custom_text_field"
+                    android:layout_marginStart="25dp" android:textSize="20sp" android:textColor="#e3e3e3"
+                    android:textColorHighlight="#e3e3e3" android:scrollHorizontally="true"/>
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
