@@ -32,7 +32,7 @@ class PullAlarmSound {
                 Log.d("Firebase: ", storageURL)
 
                 val httpsReference = storage.getReferenceFromUrl(storageURL)
-                val localFile = File.createTempFile(selectedName, "m4a")
+                val localFile = File.createTempFile("$selectedName-", ".m4a")
 
                 httpsReference.getFile(localFile).addOnSuccessListener {
                     fileCallBack(localFile)

@@ -14,6 +14,13 @@ class AlarmReceiver : BroadcastReceiver() {
         val sound = intent.getStringExtra("alarmName")
         val id = intent.getIntExtra("alarmId", 0)
         val text = intent.getStringExtra("alarmText")
+        val alarmPath = sound.substring(sound.lastIndexOf("/")+1)
+        val alarmTitle: String
+        if (alarmPath.indexOf(".") > 0) {
+            alarmTitle = alarmPath.substring(0, alarmPath.lastIndexOf("-"))
+        } else {
+            alarmTitle = alarmPath
+        }
 
         val mediaPlayer = AlarmSoundControl
         mediaPlayer.init(context, Uri.parse(sound))
@@ -29,8 +36,8 @@ class AlarmReceiver : BroadcastReceiver() {
         val pendingSnoozeIntent = PendingIntent.getBroadcast(context, id, snoozeAlarmIntent, FLAG_ONE_SHOT)
 
         val builder = NotificationCompat.Builder(context, "100")
-            .setContentTitle("Alarm ringing")
-            .setContentText(text)
+            .setContentTitle("Alarm ringing: $text")
+            .setContentText("Now playing: $alarmTitle")
             .setSmallIcon(R.drawable.abc_ic_arrow_drop_right_black_24dp)
             .setSound(null)
             .setAutoCancel(true)
