@@ -22,7 +22,7 @@ class SaveRecordingDialogFragment : DialogFragment() {
     private var storage: FirebaseStorage? = null
     private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    //not currently getting useds
+    //not currently getting used
     var flag = true
 
 
@@ -50,19 +50,21 @@ class SaveRecordingDialogFragment : DialogFragment() {
                                 var audioFilePath = requireActivity().getExternalFilesDir(null)?.absolutePath
 
                                 if(saveRecording(audioFileName, audioFilePath)) {
-                                    Toast.makeText(requireContext(), "Saved.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(requireContext(), "Uploading "+audioFileName, Toast.LENGTH_SHORT).show()
                                     upload(audioFileName, audioFilePath)
-                                    if(flag) {
-                                        Toast.makeText(requireContext(), "Uploaded your alarm", Toast.LENGTH_SHORT).show()
-                                        returnToMainActivity()
-                                    } else {
-                                        Log.d("FLAG", flag.toString())
-                                        Toast.makeText(requireContext(), "Failed to upload", Toast.LENGTH_SHORT).show()
-                                    }
+                                    returnToMainActivity()
+
+//                                    if(flag) {
+//                                        Toast.makeText(requireContext(), "Uploaded your alarm", Toast.LENGTH_SHORT).show()
+//                                        returnToMainActivity()
+//                                    } else {
+//                                        Log.d("FLAG", flag.toString())
+//                                        Toast.makeText(requireContext(), "Failed to upload", Toast.LENGTH_SHORT).show()
+//                                    }
                                 } else {
                                     Toast.makeText(
                                         requireContext(),
-                                        "Error saving file. Please try again.",
+                                        "Error uploading file. Please try again.",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
@@ -72,7 +74,7 @@ class SaveRecordingDialogFragment : DialogFragment() {
                         }
                         catch(e: Exception) {
                             e.printStackTrace()
-                            Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), "Error uploading file. Please try again.", Toast.LENGTH_LONG).show()
                         }
                     })
                 .setNegativeButton(R.string.saveRecordingNegative,
@@ -88,8 +90,7 @@ class SaveRecordingDialogFragment : DialogFragment() {
     private fun saveRecording(audioFileName: String, audioFilePath: String?): Boolean{
         try {
 
-            Toast.makeText(requireContext(), audioFileName, Toast.LENGTH_LONG).show()
-
+//            Toast.makeText(requireContext(), audioFileName, Toast.LENGTH_LONG).show()
             var sourcefile= File(audioFilePath, "/tempaudio.m4a")
             var destfile= File(audioFilePath, "/$audioFileName.m4a")
 
@@ -100,7 +101,7 @@ class SaveRecordingDialogFragment : DialogFragment() {
         catch(e: Exception)
         {
             e.printStackTrace()
-            Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Error saving file. Please try again.", Toast.LENGTH_LONG).show()
             return false
         }
     }
@@ -131,7 +132,7 @@ class SaveRecordingDialogFragment : DialogFragment() {
                    }
                    .addOnFailureListener { e ->
                        Log.d("firebase", e.message)
-                       uploadInformer(false)
+                       //uploadInformer(false)
 
                    }.addOnProgressListener { taskSnapshot ->
                        // taskSnapshot.bytesTransferred
@@ -139,12 +140,14 @@ class SaveRecordingDialogFragment : DialogFragment() {
                        Log.d("firebase", "progressing")
                    }
            } else {
-               Toast.makeText(requireContext(), "Activity is null", Toast.LENGTH_LONG).show()
+//               Toast.makeText(requireContext(), "Activity is null", Toast.LENGTH_LONG).show
+               Log.d("recording", "activity is null")
            }
         }
        catch(e: Exception){
            e.printStackTrace()
-           Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+//           Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+           Log.d("recording", "error")
        }
     }
 
