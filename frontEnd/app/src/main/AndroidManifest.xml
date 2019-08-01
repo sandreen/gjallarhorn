@@ -30,16 +30,6 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.gjallarhorn.app.MainActivity"/>
         </activity>
-        <activity
-                android:name=".UploadTest"
-                android:label="@string/title_activity_upload_test"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-                android:name=".StorageTest"
-                android:label="@string/title_activity_storage_test"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
         <receiver android:name=".AlarmReceiver"/>
     </application>
 
