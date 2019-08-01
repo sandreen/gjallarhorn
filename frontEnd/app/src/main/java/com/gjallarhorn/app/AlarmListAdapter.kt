@@ -21,6 +21,9 @@ class AlarmListAdapter(private val myDataset: AlarmList) : RecyclerView.Adapter<
         val time = myDataset.getIndex(position).getTime()
         textBox.text = padMinutes(time)
 
+        val customTextField = holder.layout.findViewById<TextView>(R.id.custom_text_field)
+        customTextField.text = myDataset.getIndex(position).getText()
+
         val switch = holder.layout.findViewById<Switch>(R.id.card_alarm_toggle)
         switch.isChecked = myDataset.getIndex(position).getActive()
         switch.setOnClickListener { view ->
