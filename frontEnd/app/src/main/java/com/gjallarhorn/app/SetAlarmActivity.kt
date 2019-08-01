@@ -4,7 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class SetAlarmActivity : AppCompatActivity() {
@@ -12,10 +14,15 @@ class SetAlarmActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_alarm)
 
+        val alarmText = intent.getStringExtra("CardText")
         val alarmTime = intent.getStringExtra("CardTime")
         val alarmTimeSplit = alarmTime?.split(":")
 
+        val text = findViewById<EditText>(R.id.enterCustomText)
         val clock = findViewById<TimePicker>(R.id.alarmTimeSet)
+
+        if (alarmText != "" && alarmText != null)
+            text.setText(alarmText)
 
         if (alarmTimeSplit?.size == 2) {
             clock.hour = alarmTimeSplit[0].toInt()
@@ -34,15 +41,22 @@ class SetAlarmActivity : AppCompatActivity() {
         val hour = clock.hour
         val minute = clock.minute
 
+        val textField = findViewById<EditText>(R.id.enterCustomText)
+        var customText = textField.text.toString()
+
+        if (customText == getString(R.string.enter_text))
+            customText = ""
+
         if (AlarmList.isInList(requestId)) {
             val alarmIndex = AlarmList.getIndexById(requestId)
             AlarmList.setTime(alarmIndex, "$hour:$minute")
             AlarmList.setActive(alarmIndex, true)
+            AlarmList.setCustomText(alarmIndex, customText)
         } else {
-            alarmList.addAlarm(requestId, Uri.parse(""), true, "$hour:$minute")
+            alarmList.addAlarm(requestId, Uri.parse(""), true, "$hour:$minute", customText)
         }
 
-        AlarmScheduler().scheduleAlarm(this, requestId, clock.hour, clock.minute)
+        AlarmScheduler().scheduleAlarm(this, requestId, clock.hour, clock.minute, customText)
 
         closeAlarmScreen()
     }

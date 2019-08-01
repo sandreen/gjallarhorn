@@ -5,8 +5,8 @@ import android.net.Uri
 object AlarmList {
     private val alarmList = mutableListOf<Alarm>()
 
-    fun addAlarm(id: Int, sound: Uri, active: Boolean, time: String) {
-        val newAlarm = Alarm(id, sound, active, time)
+    fun addAlarm(id: Int, sound: Uri, active: Boolean, time: String, customText: String = "") {
+        val newAlarm = Alarm(id, sound, active, time, customText)
         alarmList.add(newAlarm)
     }
 
@@ -56,6 +56,10 @@ object AlarmList {
         return alarmList[index].getTime()
     }
 
+    fun getCustomText(index: Int): String {
+        return alarmList[index].getText()
+    }
+
     fun setSound(index: Int, sound: Uri) {
         alarmList[index].setSound(sound)
     }
@@ -66,5 +70,9 @@ object AlarmList {
 
     fun setTime(index: Int, value: String) {
         alarmList[index].setTime(value)
+    }
+
+    fun setCustomText(index: Int, newText: String) {
+        alarmList[index].setText(newText)
     }
 }
