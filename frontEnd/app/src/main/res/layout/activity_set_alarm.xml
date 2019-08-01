@@ -25,5 +25,15 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="@id/alarmTimeSet"
             app:layout_constraintBottom_toBottomOf="@+id/alarmTimeSet"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/enterCustomText" android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/alarmTimeSet" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:textColor="#E3E3E3" android:textSize="40sp"
+            android:backgroundTint="#233142" android:hint="@string/enter_text" android:textColorHint="#E3E3E3"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

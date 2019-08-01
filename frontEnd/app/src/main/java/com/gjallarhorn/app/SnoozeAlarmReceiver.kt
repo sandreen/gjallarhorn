@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter
 class SnoozeAlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val id = intent.getIntExtra("alarmId", -1)
+        val text = intent.getStringExtra("alarmText")
 
         val notificationManager = context.getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.cancel(id)
@@ -28,7 +29,7 @@ class SnoozeAlarmReceiver : BroadcastReceiver() {
         if (minute < 1)
             hour++
 
-        AlarmScheduler().scheduleAlarm(context, 1, hour, minute)
+        AlarmScheduler().scheduleAlarm(context, 1, hour, minute, text)
 
         Toast.makeText(context, "Snoozing until $hour:$minute", Toast.LENGTH_LONG).show()
 

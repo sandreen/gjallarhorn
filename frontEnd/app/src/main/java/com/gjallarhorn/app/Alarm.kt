@@ -2,11 +2,12 @@ package com.gjallarhorn.app
 
 import android.net.Uri
 
-class Alarm (id: Int, sound: Uri, active: Boolean, time: String) {
+class Alarm (id: Int, sound: Uri, active: Boolean, time: String, text: String) {
     private var alarmId = id
     private var alarmSound = sound
     private var alarmActive = active
     private var alarmTime = time
+    private var alarmText = text
 
     fun getId(): Int {
         return alarmId
@@ -24,6 +25,10 @@ class Alarm (id: Int, sound: Uri, active: Boolean, time: String) {
         return alarmTime
     }
 
+    fun getText(): String {
+        return alarmText
+    }
+
     fun setSound(sound: Uri) {
         alarmSound = sound
     }
@@ -34,5 +39,9 @@ class Alarm (id: Int, sound: Uri, active: Boolean, time: String) {
 
     fun setTime(newTime: String) {
         alarmTime = newTime
+    }
+
+    fun setText(newString: String) {
+        alarmText = newString
     }
 }

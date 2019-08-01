@@ -13,6 +13,7 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val sound = intent.getStringExtra("alarmName")
         val id = intent.getIntExtra("alarmId", 0)
+        val text = intent.getStringExtra("alarmText")
 
         val mediaPlayer = AlarmSoundControl
         mediaPlayer.init(context, Uri.parse(sound))
@@ -20,15 +21,16 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val stopAlarmIntent = Intent(context, StopAlarmReceiver::class.java)
         stopAlarmIntent.putExtra("alarmId", id)
-        val pendingStopIntent = PendingIntent.getBroadcast(context, 0, stopAlarmIntent, FLAG_ONE_SHOT)
+        val pendingStopIntent = PendingIntent.getBroadcast(context, id, stopAlarmIntent, FLAG_ONE_SHOT)
 
         val snoozeAlarmIntent = Intent(context, SnoozeAlarmReceiver::class.java)
         snoozeAlarmIntent.putExtra("alarmId", id)
-        val pendingSnoozeIntent = PendingIntent.getBroadcast(context, 0, snoozeAlarmIntent, FLAG_ONE_SHOT)
+        snoozeAlarmIntent.putExtra("alarmText", text)
+        val pendingSnoozeIntent = PendingIntent.getBroadcast(context, id, snoozeAlarmIntent, FLAG_ONE_SHOT)
 
         val builder = NotificationCompat.Builder(context, "100")
             .setContentTitle("Alarm ringing")
-            .setContentText("Get the fuck out of bed")
+            .setContentText(text)
             .setSmallIcon(R.drawable.abc_ic_arrow_drop_right_black_24dp)
             .setSound(null)
             .setAutoCancel(true)

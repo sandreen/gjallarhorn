@@ -1,5 +1,6 @@
 package com.gjallarhorn.app
 
+import android.app.PendingIntent
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -25,11 +26,17 @@ class AlarmListAdapter(private val myDataset: AlarmList) : RecyclerView.Adapter<
         switch.setOnClickListener { view ->
             val context = view.context
             val id = myDataset.getIndex(position).getId()
+            val text = myDataset.getIndex(position).getText()
             val scheduler = AlarmScheduler()
 
             if (!switch.isChecked) {
                 myDataset.setActive(position, false)
                 scheduler.cancelAlarm(context, id)
+                val stopAlarmIntent = Intent(context, StopAlarmReceiver::class.java)
+                stopAlarmIntent.putExtra("alarmId", id)
+                val pendingStopIntent = PendingIntent
+                    .getBroadcast(context, 0, stopAlarmIntent, PendingIntent.FLAG_ONE_SHOT)
+                pendingStopIntent.send()
             } else {
                 val alarmTime = time.split(":")
                 val hour = alarmTime[0].toInt()
@@ -37,7 +44,7 @@ class AlarmListAdapter(private val myDataset: AlarmList) : RecyclerView.Adapter<
 
                 myDataset.setActive(position, true)
 
-                scheduler.scheduleAlarm(context, id, hour, minute)
+                scheduler.scheduleAlarm(context, id, hour, minute, text)
             }
         }
 
@@ -62,6 +69,7 @@ class AlarmListAdapter(private val myDataset: AlarmList) : RecyclerView.Adapter<
             val setAlarmIntent = Intent(context, SetAlarmActivity::class.java)
             setAlarmIntent.putExtra("CardID", id)
             setAlarmIntent.putExtra("CardTime", myDataset.getIndex(position).getTime())
+            setAlarmIntent.putExtra("CardText", myDataset.getIndex(position).getText())
 
             context.startActivity(setAlarmIntent)
         }
