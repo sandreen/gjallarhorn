@@ -52,6 +52,7 @@ class SaveRecordingDialogFragment : DialogFragment() {
                                 if(saveRecording(audioFileName, audioFilePath)) {
                                     Toast.makeText(requireContext(), "Uploading "+audioFileName, Toast.LENGTH_SHORT).show()
                                     upload(audioFileName, audioFilePath)
+                                    Toast.makeText(requireContext(), "Uploaded "+audioFileName, Toast.LENGTH_SHORT).show()
                                     returnToMainActivity()
 
 //                                    if(flag) {
@@ -107,7 +108,7 @@ class SaveRecordingDialogFragment : DialogFragment() {
     }
 
     private fun upload(audioFileName: String, audioFilePath: String?){
-        Toast.makeText(requireContext(), "In upload", Toast.LENGTH_LONG).show()
+        //Toast.makeText(requireContext(), "In upload", Toast.LENGTH_LONG).show()
         try {
            if (activity != null && isAdded) {
                var storageReference = FirebaseStorage.getInstance().reference.child("Sounds")
